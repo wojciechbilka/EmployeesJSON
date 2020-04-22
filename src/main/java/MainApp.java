@@ -28,6 +28,28 @@ public class MainApp implements Runnable {
         try {
             String response = new HttpService().connect(Config.APP_URL);
            List<Employee> employees =  parseJson(response);
+
+           List<Employee> overThirty = employees.stream()
+                   .filter(x -> x.getAge() > 30)
+                   .collect(Collectors.toList());
+
+            List<Employee> sortedBySalary = employees.stream()
+                    .sorted(Comparator.comparing(Employee::getSalary))
+                    .collect(Collectors.toList());
+
+            List<Employee> sortedByAgeDecreasing = employees.stream()
+                    .sorted(Comparator.comparing(Employee::getAge).reversed())
+                    .collect(Collectors.toList());
+
+            System.out.println("Over 30:");
+            System.out.println(overThirty);
+
+            System.out.println("Sorted by salary:");
+            System.out.println(sortedBySalary);
+
+            System.out.println("Sorted by age decreasing:");
+            System.out.println(sortedByAgeDecreasing);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
