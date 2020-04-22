@@ -29,17 +29,11 @@ public class MainApp implements Runnable {
             String response = new HttpService().connect(Config.APP_URL);
            List<Employee> employees =  parseJson(response);
 
-           List<Employee> overThirty = employees.stream()
-                   .filter(x -> x.getAge() > 30)
-                   .collect(Collectors.toList());
+           List<Employee> overThirty = SortingEmployees.getEmployeeAboveAge(employees, 30);
 
-            List<Employee> sortedBySalary = employees.stream()
-                    .sorted(Comparator.comparing(Employee::getSalary))
-                    .collect(Collectors.toList());
+            List<Employee> sortedBySalary = SortingEmployees.getEmployeeSortedBy(employees, Comparator.comparing(Employee::getSalary), false);
 
-            List<Employee> sortedByAgeDecreasing = employees.stream()
-                    .sorted(Comparator.comparing(Employee::getAge).reversed())
-                    .collect(Collectors.toList());
+            List<Employee> sortedByAgeDecreasing = SortingEmployees.getEmployeeSortedBy(employees, Comparator.comparing(Employee::getAge), true);
 
             System.out.println("Over 30:");
             System.out.println(overThirty);
